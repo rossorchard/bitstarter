@@ -1,0 +1,63 @@
+
+
+$ npm install restify
+(or https://github.com/flatiron/restful)
+(http://expressjs.com/applications.html)
+(http://pixelhandler.com/blog/2012/02/09/develop-a-restful-api-using-node-js-with-express-and-mongoose/)
+(http://coenraets.org/blog/2012/10/creating-a-rest-api-using-node-js-express-and-mongodb/)
+------------
+
+
+var restify = require('restify');
+
+function respond(req, res, next) {
+  res.send('hello ' + req.params.name);
+}
+
+var server = restify.createServer();
+server.get('/hello/:name', respond);
+server.head('/hello/:name', respond);
+
+server.listen(8080, function() {
+  console.log('%s listening at %s', server.name, server.url);
+});
+
+
+
+$ curl -is http://localhost:8080/hello/mark -H 'accept: text/plain'
+HTTP/1.1 200 OK
+Content-Type: text/plain
+Content-Length: 10
+Date: Mon, 31 Dec 2012 01:32:44 GMT
+Connection: keep-alive
+
+hello mark
+
+
+$ curl -is http://localhost:8080/hello/mark
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 12
+Date: Mon, 31 Dec 2012 01:33:33 GMT
+Connection: keep-alive
+
+"hello mark"
+
+
+$ curl -is http://localhost:8080/hello/mark -X HEAD -H 'connection: close'
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 12
+Date: Mon, 31 Dec 2012 01:42:07 GMT
+Connection: close
+
+
+
+
+
+
+
+
+
+
+
